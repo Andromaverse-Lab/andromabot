@@ -3,6 +3,7 @@ cache/collections/
 config.json
 config*.yaml
 deployments/akash-prod.yaml
+gallery.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

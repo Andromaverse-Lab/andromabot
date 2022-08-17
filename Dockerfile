@@ -9,13 +9,19 @@ RUN curl -sSL https://install.python-poetry.org | python -
 ###
 FROM poetry_builder as builder
 
-WORKDIR /stargaze-floor-bot
-COPY pyproject.toml .
-COPY dependencies/ dependencies/
-RUN poetry lock
-RUN poetry install --no-dev
+# Install ImageMagick
+RUN apt update \
+    && apt install -y \
+         imagemagick 
 
+WORKDIR /andromabot
 COPY cache/ cache/
+COPY dependencies/ dependencies/
+COPY pyproject.toml .
+RUN poetry lock \
+    && poetry install --no-dev
+
+COPY images/ images/
 COPY andromabot/ andromabot/
 
 # Update this to copy your config file
