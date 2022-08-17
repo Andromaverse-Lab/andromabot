@@ -25,7 +25,6 @@ poetry run python local/create_gallery.py \
 
 ![example gallery](./images/example.png)
 
-
 ## Table of Contents
 
 - [Setup](#setup)
@@ -219,6 +218,10 @@ This command will list the enabled collections and the most recent floor price d
 ### /querytraitfloor
 
 This command will prompt the user for a collection, trait name, and trait value and then display the lowest three tokens including traits and link to the Stargaze marketplace for purchase.
+
+### /create-gallery
+
+This command will prompt the user for 4 Andromeda Labs tokens and create a gallery image from them.
 
 ## Deployment
 
