@@ -13,6 +13,8 @@ LOG = logging.getLogger(__name__)
 
 
 def get_trend_emoji(x: List[int]) -> str:
+    if x[-1] == 0:
+        return "•"
     if x[0] > x[-1]:
         return "↗️"
     elif x[0] == x[-1]:
