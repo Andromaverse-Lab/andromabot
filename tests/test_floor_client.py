@@ -4,7 +4,7 @@ from decimal import Decimal
 from stargazeutils.coin import Coin
 from stargazeutils.market.market_ask import MarketAsk
 
-from andromabot.floorwatcher.floorwatcher import get_min_ask, get_trend_emoji
+from andromabot.floorwatcher.floor_watcher import get_min_ask, get_trend_emoji
 
 FUTURE = datetime.utcnow() + timedelta(25)
 

@@ -3,7 +3,7 @@ import logging
 import discord
 
 from .config.config import Config
-from .floorwatcher.floorwatcher import FloorWatcher
+from .floorwatcher.floor_watcher import FloorWatcher
 
 LOG = logging.getLogger(__name__)
 
