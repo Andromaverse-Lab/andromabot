@@ -4,6 +4,7 @@ import discord
 
 from .config.config import Config
 from .floorwatcher.floor_watcher import FloorWatcher
+from .gallerymaker.gallery_maker import GalleryMaker
 
 LOG = logging.getLogger(__name__)
 
@@ -15,6 +16,7 @@ class AndromaBot(discord.Client):
         self.tree = discord.app_commands.CommandTree(self)
 
         self.floor_watcher = FloorWatcher(self, self.config.collections)
+        self.gallery_maker = GalleryMaker(self)
 
     async def setup_hook(self) -> None:
         guild_ids = set()

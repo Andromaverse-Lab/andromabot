@@ -6,6 +6,26 @@ This is the primary source for the AndromaBot [Discord] bot in use by [Andromeda
 - Allows users to query for floor pricing of specific traits
 - Create a gallery of 4 tokens
 
+## Gallery quickstart
+
+If you want to make a gallery image fast:
+
+Install [Poetry] and [ImageMagick]. Then run the following command using any combination of "spunk", "egg", and "apunk" and the requested token ids.
+
+> Only 4 images are supported at this time.
+
+```sh
+poetry install
+poetry run python local/create_gallery.py \
+  spunk 1 \
+  egg 2 \
+  apunk 3 \
+  spunk 4
+```
+
+![example gallery](./images/example.png)
+
+
 ## Table of Contents
 
 - [Setup](#setup)
@@ -89,7 +109,7 @@ This bot is designed to run in a discord server without needing the stars CLI. I
 You can build the docker file with the following command:
 
 ```sh
-docker build -t stargazefloorbot:dev .
+docker build -t andromabot:dev .
 ```
 
 If you need to build a multi-platform image, you can set up a [buildx] context that supports the architectures you want and then build:
@@ -97,10 +117,10 @@ If you need to build a multi-platform image, you can set up a [buildx] context t
 ```sh
 docker buildx build --push \
   --platform linux/amd64,linux/arm64 \
-  -t ghcr.io/starship-ibc/stargaze-floor-bot:dev \
+  -t ghcr.io/starship-ibc/andromabot:dev \
   .
 
-docker pull ghcr.io/starship-ibc/stargaze-floor-bot:dev
+docker pull ghcr.io/starship-ibc/andromabot:dev
 ```
 
 > For buildx, you will need to `--push` to a registry and then pull it down because docker does not currently support loading multi-architecture images locally.
@@ -164,7 +184,7 @@ collections:
 To run the docker image with a local yaml file, you can mount it within the container:
 
 ```sh
-docker run -v $PWD/config.yaml:/stargaze-floor-bot/config.yaml stargazefloorbot:dev
+docker run -v $PWD/config.yaml:/andromabot/config.yaml andromabot:dev
 ```
 
 You should see some basic output indicating that the configuration has loaded and a connection to Gateway established. Any invalid asks will also be sent to the output.
@@ -185,7 +205,7 @@ poetry install
 Run the project
 
 ```sh
-poetry run python -m stargazefloorbot
+poetry run python -m andromabot
 ```
 
 ## Usage
