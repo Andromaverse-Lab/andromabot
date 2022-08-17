@@ -1,6 +1,7 @@
 import logging
 
 import discord
+from discord.activity import ActivityType
 
 from .collections import AndromedaCollections
 from .image_processing import create_gallery
@@ -51,9 +52,15 @@ class GalleryMaker:
 
         LOG.info("Received request")
         await interaction.response.defer(thinking=True)
-        gallery = await create_gallery(tokens)
-        filename = "gallery.png"
-        gallery.save(filename=filename)
 
-        file = discord.File(filename)
-        await interaction.followup.send(file=file)
+        activity = discord.Activity(type=ActivityType.playing, name="The Gallerist 🖼")
+        await self.client.change_presence(activity=activity)
+        try:
+            gallery = await create_gallery(tokens)
+            filename = "gallery.png"
+            gallery.save(filename=filename)
+            file = discord.File(filename)
+            await interaction.followup.send(file=file)
+        except IndexError as e:
+            await interaction.followup.send(e)
+        await self.client.change_presence(activity=None)
