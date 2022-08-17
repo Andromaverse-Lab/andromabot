@@ -16,11 +16,11 @@ RUN poetry lock
 RUN poetry install --no-dev
 
 COPY cache/ cache/
-COPY stargazefloorbot/ stargazefloorbot/
+COPY andromabot/ andromabot/
 
 # Update this to copy your config file
 # to the container and then tag the image
 # you plan to deploy to Akash.
 # COPY config.yaml config.yaml
 
-ENTRYPOINT [ "python", "-m", "stargazefloorbot" ]
+ENTRYPOINT [ "python", "-m", "andromabot" ]
