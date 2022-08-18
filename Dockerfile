@@ -16,12 +16,13 @@ RUN apt update \
 
 WORKDIR /andromabot
 COPY cache/ cache/
+COPY images/ images/
+
 COPY dependencies/ dependencies/
 COPY pyproject.toml .
 RUN poetry lock \
     && poetry install --no-dev
 
-COPY images/ images/
 COPY andromabot/ andromabot/
 
 # Update this to copy your config file
