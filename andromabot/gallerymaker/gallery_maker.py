@@ -61,6 +61,6 @@ class GalleryMaker:
             gallery.save(filename=filename)
             file = discord.File(filename)
             await interaction.followup.send(file=file)
-        except IndexError as e:
+        except (IndexError, OSError) as e:
             await interaction.followup.send(e)
         await self.client.change_presence(activity=None)
