@@ -50,7 +50,10 @@ class GalleryMaker:
             {"name": collection_4, "id": token_4},
         ]
 
-        LOG.info("Received request")
+        LOG.info("Received gallery request")
+        for token in tokens:
+            LOG.debug(f"- {token['name'].name} #{token['id']}")
+
         await interaction.response.defer(thinking=True)
 
         activity = discord.Activity(type=ActivityType.playing, name="The Gallerist 🖼")
