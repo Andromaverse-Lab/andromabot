@@ -5,8 +5,11 @@ import discord
 
 from .andromabot import AndromaBot
 from .config.config import Config
-
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
+    
 CONFIG_FILE = os.environ.get("CONFIG_FILE", default="config.yaml")
 config = Config.from_yaml(CONFIG_FILE)
 
