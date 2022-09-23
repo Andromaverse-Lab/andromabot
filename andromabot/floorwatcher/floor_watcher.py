@@ -12,14 +12,6 @@ from .floor_flow import FloorFlow
 LOG = logging.getLogger(__name__)
 
 
-def get_trend_emoji(x: List[int]) -> str:
-    if x[-1] == 0:
-        return "•"
-    if x[0] > x[-1]:
-        return "↗️"
-    elif x[0] == x[-1]:
-        return "➡️"
-    return "↘️"
 
 
 def get_min_ask(trait_asks: dict):
@@ -75,16 +67,6 @@ class FloorWatcher:
             task = self.client.loop.create_task(self.track_floor_pricing(collection))
             self.bg_tasks.append(task)
 
-    async def update_floor(self, collection: CollectionConfig):
-        name = collection.name
-        floor_history = self.floors[name]
-        floor = floor_history[0]
-        trend_emoji = get_trend_emoji(floor_history)
-
-        LOG.info(f"{name} history: {[str(x) for x in floor_history]}")
-        for ch in collection.channels:
-            await ch.channel.edit(name=f"{collection.prefix}{floor:,} {trend_emoji}")
-
     async def update_asks(self, collection: CollectionConfig):
         name = collection.name
         activity = discord.Activity(type=ActivityType.watching, name="the stars 🌌🔭")
@@ -107,10 +89,11 @@ class FloorWatcher:
         interval = collection.refresh_interval
 
         while True:
-            await self.update_asks(collection)
-            LOG.info("Waiting until ready...")
-            await self.client.wait_until_ready()
-            await self.update_floor(collection)
+            try:
+                await self.update_asks(collection)
+            except Exception as e:
+                LOG.warning(f"Exception during update_asks: {e}")
+
             LOG.info(f"Refreshing {collection.name} in {interval} seconds")
             await asyncio.sleep(interval)
 

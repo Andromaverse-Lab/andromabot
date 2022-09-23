@@ -14,7 +14,6 @@ class AndromaBot(discord.Client):
         super().__init__(intents=intents)
         self.config = config
         self.tree = discord.app_commands.CommandTree(self)
-
         self.floor_watcher = FloorWatcher(self, self.config.collections)
         self.gallery_maker = GalleryMaker(self)
 
