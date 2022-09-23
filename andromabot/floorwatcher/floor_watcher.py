@@ -12,8 +12,6 @@ from .floor_flow import FloorFlow
 LOG = logging.getLogger(__name__)
 
 
-
-
 def get_min_ask(trait_asks: dict):
     def asking_price(x):
         return x["ask"].price.amount

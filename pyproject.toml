@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "andromabot"
-version = "1.1.1"
+version = "1.2.0"
 description = "Andromeda Labs discord bot"
 authors = ["Starship IBC <shrugs.rest0x@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 "discord.py" = {path = "./dependencies/discord.py-2.0.0a4405+ge0341c9e.tar.gz"}
-stargazeutils = {path = "./dependencies/stargazeutils-0.2.0.tar.gz"}
+stargazeutils = {path = "./dependencies/stargazeutils-0.6.0.tar.gz"}
 PyYAML = "^6.0"
 Wand = "^0.6.10"
 

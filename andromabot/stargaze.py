@@ -22,5 +22,5 @@ def fetch_trait_asks(collection_name: str, strict_validation: bool = False):
     collection = client.fetch_nft_collection(json_trait_cache_file)
     LOG.info(f"Fetching asks for {collection_name}")
     asks = market.fetch_asks_for_collection(collection, strict_verify=strict_validation)
-    trait_asks = asks.create_asks_by_trait()
+    trait_asks = asks.create_asks_by_trait(include_auctions=False)
     return trait_asks
