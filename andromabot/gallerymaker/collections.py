@@ -2,9 +2,11 @@ from enum import Enum
 
 
 class AndromedaCollections(Enum):
-    STARGAZE_PUNKS = (0,)
-    ANDROMA_PUNKS = (1,)
+    UNKNOWN = 0
+    STARGAZE_PUNKS = 1
+    ANDROMA_PUNKS = 2
     ANDROMAVERSE = 3
+    FORGOTTEN = 4
 
     @classmethod
     def from_str(cls, str):
@@ -15,3 +17,6 @@ class AndromedaCollections(Enum):
             return cls.ANDROMA_PUNKS
         if s in ["andromaverse", "egg"]:
             return cls.ANDROMAVERSE
+        if s in ["forgotten", "funk", "fpunk", "fp"]:
+            return cls.FORGOTTEN
+        return cls.UNKNOWN

@@ -31,6 +31,12 @@ ipfs_map = {
         "logo": Image(filename="./images/spunks-logo.png"),
         "max_token": 8888,
     },
+    AndromedaCollections.FORGOTTEN: {
+        "ipfs": "bafybeibpdyyamxcw22wkih7d4of63y66eixnbo7gua7srkuls76fm7qlm4",
+        "image_dir": "./images/collections/the-forgotten-punks",
+        "logo": Image(filename="./images/forgotten-logo.png"),
+        "max_token": 3456,
+    },
 }
 
 
