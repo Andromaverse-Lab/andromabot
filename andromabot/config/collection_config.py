@@ -33,5 +33,4 @@ class CollectionConfig:
         config._set_value("refresh_interval", d)
         config._set_value("enable_trait_query", d)
         config._set_value("strict_validation", d)
-        config.channels = [ChannelConfig.from_dict(c) for c in d["channels"]]
         return config

@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  andromabot:
+    build: .
+    environment:
+      - DISCORD_KEY
+    volumes:
+      - $PWD/config.yaml:/andromabot/config.yaml

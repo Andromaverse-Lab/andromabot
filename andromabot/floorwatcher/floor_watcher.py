@@ -15,34 +15,17 @@ from .floor_flow import FloorFlow
 LOG = logging.getLogger(__name__)
 
 
-def get_trend_emoji(x: List[int]) -> str:
-    if x[-1] == 0:
-        return "•"
-    if x[0] > x[-1]:
-        return "↗️"
-    elif x[0] == x[-1]:
-        return "➡️"
-    return "↘️"
-
-
 def get_min_ask(trait_asks: dict):
     def asking_price(x):
         return x["ask"].price.amount
 
-    return min(
-        [
-            min(
-                [
-                    min(value_asks, key=asking_price)
-                    for value_asks in trait_value.values()
-                ],
-                key=asking_price,
-            )
-            for trait_value in trait_asks.values()
-        ],
-        key=asking_price,
-    )
-
+    min_ask = None
+    for trait,values in trait_asks.items():
+        for value,asks in values.items():
+            for ask in asks:
+                if min_ask is None or asking_price(ask) < asking_price(min_ask):
+                    min_ask = ask
+    return min_ask
 
 class FloorWatcher:
     def __init__(self, client: discord.Client, collections: List[CollectionConfig]):
@@ -72,22 +55,8 @@ class FloorWatcher:
     async def begin_watching(self):
         self.bg_tasks = []
         for collection in self.collections:
-            for channel in collection.channels:
-                channel.guild = self.client.get_guild(channel.guild_id)
-                channel.channel = self.client.get_channel(channel.channel_id)
-
             task = self.client.loop.create_task(self.track_floor_pricing(collection))
             self.bg_tasks.append(task)
-
-    async def update_floor(self, collection: CollectionConfig):
-        name = collection.name
-        floor_history = self.floors[name]
-        floor = floor_history[0]
-        trend_emoji = get_trend_emoji(floor_history)
-
-        LOG.info(f"{name} history: {[str(x) for x in floor_history]}")
-        for ch in collection.channels:
-            await ch.channel.edit(name=f"{collection.prefix}{floor:,} {trend_emoji}")
 
     async def update_asks(self, collection: CollectionConfig):
         name = collection.name
@@ -115,14 +84,7 @@ class FloorWatcher:
             try:
                 await self.update_asks(collection)
             except Exception as e:
-                LOG.warning(f"Exception during update_asks: {e}")            
-            
-            try:
-                LOG.debug("Waiting until ready...")
-                await self.client.wait_until_ready()
-                await self.update_floor(collection)
-            except Exception as e:
-                LOG.warning(f"Exception during update_floor: {e}")
+                LOG.warning(f"Exception during update_asks: {e}")
 
             LOG.info(f"Refreshing {collection.name} in {interval} seconds")
             await asyncio.sleep(interval)
