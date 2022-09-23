@@ -43,7 +43,7 @@ class FloorFlow:
         await self.select_trait_name(interaction)
 
     async def select_trait_name(self, interaction: discord.Interaction):
-        LOG.info(f"Creating trait name selection for '{self.collection_name}'")
+        LOG.debug(f"Creating trait name selection for '{self.collection_name}'")
         collection_asks = self.asks[self.collection_name]
         num_traits = len(collection_asks.keys())
 
@@ -72,7 +72,7 @@ class FloorFlow:
         await self.select_trait_value(interaction)
 
     async def select_trait_value(self, interaction: discord.Interaction, page: int = 0):
-        LOG.info(
+        LOG.debug(
             "Creating trait value selection for "
             f"{self.collection_name} > {self.trait_name} (page {page})"
         )

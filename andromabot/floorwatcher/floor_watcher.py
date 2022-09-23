@@ -1,9 +1,12 @@
 import asyncio
+from datetime import datetime
 import logging
 from typing import List
 
 import discord
 from discord.activity import ActivityType
+
+from andromabot.time_utils import relative_time
 
 from ..config.config import CollectionConfig
 from ..stargaze import fetch_trait_asks
@@ -30,6 +33,7 @@ class FloorWatcher:
         self.collections = collections
         self.latest_asks = {}
         self.floors = {}
+        self.floor_updates: dict[str,datetime] = {}
 
         for c in self.collections:
             self.floors[c.name] = [0, 0, 0, 0, 0]
@@ -68,6 +72,7 @@ class FloorWatcher:
         new_floor = collection_floor["ask"].price.get_stars()
         self.floors[name].insert(0, new_floor)
         self.floors[name].pop()
+        self.floor_updates[name] = datetime.utcnow()
         LOG.info(f"Finished updating asks for '{name}'")
 
         await self.client.change_presence(activity=None)
@@ -88,7 +93,8 @@ class FloorWatcher:
         """List the currently tracked collections."""
         message = "**Tracked collections**\n"
         for collection, floor in self.floors.items():
-            message += f"- {collection}: ({floor[0]:,} $STARS)\n"
+            td = datetime.utcnow() - self.floor_updates[collection]
+            message += f"- {collection}: ({floor[0]:,} $STARS updated {relative_time(td)})\n"
         await interaction.response.send_message(message)
 
     async def query_trait_floor(
