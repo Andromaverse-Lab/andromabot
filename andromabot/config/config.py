@@ -13,7 +13,7 @@ class Config:
         self.log_level = "INFO"
         self.refresh_interval = 300
         self.strict_validation = False
-
+        self.guilds: List[int] = []
         self.collections: List[CollectionConfig] = []
 
     def _set_value(self, key, values):
@@ -32,6 +32,7 @@ class Config:
         config._set_value("log_level", values)
         config._set_value("refresh_interval", values)
         config._set_value("strict_validation", values)
+        config._set_value("guilds", values)
 
         for c in values["collections"]:
             c_config = CollectionConfig.from_dict(

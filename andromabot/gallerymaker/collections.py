@@ -2,7 +2,6 @@ from enum import Enum
 
 
 class AndromedaCollections(Enum):
-    UNKNOWN = 0
     STARGAZE_PUNKS = 1
     ANDROMA_PUNKS = 2
     ANDROMAVERSE = 3
@@ -19,4 +18,3 @@ class AndromedaCollections(Enum):
             return cls.ANDROMAVERSE
         if s in ["forgotten", "funk", "fpunk", "fp"]:
             return cls.FORGOTTEN
-        return cls.UNKNOWN

@@ -157,8 +157,11 @@ class FloorFlow:
             embed.set_image(url=image_url)
 
             for trait, value in info.items():
-                if trait not in ["image", "name", "id"]:
-                    embed.add_field(name=trait, value=value, inline=True)
+                if trait not in ["image", "name", "id", "description", "dna", "edition"]:
+                    value_str = str(value).replace("_", " ")
+                    if trait == "score":
+                        value_str = f"{value:.2f}"
+                    embed.add_field(name=trait.replace("_", " "), value=value_str, inline=True)
 
             embeds.append(embed)
 

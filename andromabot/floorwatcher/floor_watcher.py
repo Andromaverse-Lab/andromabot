@@ -16,20 +16,13 @@ def get_min_ask(trait_asks: dict):
     def asking_price(x):
         return x["ask"].price.amount
 
-    return min(
-        [
-            min(
-                [
-                    min(value_asks, key=asking_price)
-                    for value_asks in trait_value.values()
-                ],
-                key=asking_price,
-            )
-            for trait_value in trait_asks.values()
-        ],
-        key=asking_price,
-    )
-
+    min_ask = None
+    for trait,values in trait_asks.items():
+        for value,asks in values.items():
+            for ask in asks:
+                if min_ask is None or asking_price(ask) < asking_price(min_ask):
+                    min_ask = ask
+    return min_ask
 
 class FloorWatcher:
     def __init__(self, client: discord.Client, collections: List[CollectionConfig]):
@@ -58,10 +51,6 @@ class FloorWatcher:
     async def begin_watching(self):
         self.bg_tasks = []
         for collection in self.collections:
-            for channel in collection.channels:
-                channel.guild = self.client.get_guild(channel.guild_id)
-                channel.channel = self.client.get_channel(channel.channel_id)
-
             task = self.client.loop.create_task(self.track_floor_pricing(collection))
             self.bg_tasks.append(task)
 
